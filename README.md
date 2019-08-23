@@ -1,6 +1,6 @@
 # graph-po
 
-TODO:
+TODO:  
   Remove BFS and use a library.  
   Notate navigation methods and use it to track, in some reflection way.  
   Set the weight based on loading time.  
