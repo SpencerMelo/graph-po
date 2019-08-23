@@ -4,5 +4,4 @@ public enum IdBrowsers {
     CHROME,
     IEXPLORER,
     FIREFOX,
-    SAFARI
 }

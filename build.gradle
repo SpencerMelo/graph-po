@@ -2,13 +2,12 @@ plugins {
     id 'java'
 }
 
-group 'com.up.test.ui'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
-
 repositories {
     mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
 }
 
 clean {
@@ -16,7 +15,7 @@ clean {
 }
 
 dependencies {
-    compile 'junit:junit:4.12'
-    testCompile 'junit:junit:4.12'
+    compile("org.junit.jupiter:junit-jupiter-api:5.5.1")
+    compile("org.junit.jupiter:junit-jupiter-engine:5.5.1")
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.13.0'
 }
