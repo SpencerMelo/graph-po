@@ -25,7 +25,7 @@ public class Graph {
         LinkedList<Vertex> shortestDistance = new LinkedList<>();
         Map<String, Vertex> queue = new HashMap();
 
-        for (Vertex vertex : vertices) {
+        for (Vertex vertex : getVertices()) {
             dist.put(vertex.getLabel(), Integer.MAX_VALUE);
             queue.put(vertex.getLabel(), vertex);
         }
@@ -58,16 +58,6 @@ public class Graph {
             }
         }
         return shortestDistance;
-    }
-
-    public void printGraph() {
-        for (Vertex vertex : vertices) {
-            for (Edge edge : vertex.getEdges()) {
-                System.out.println(vertex.getLabel()
-                        + " --> " + edge.getDestination().getLabel()
-                        + " with weight: " + edge.getWeight());
-            }
-        }
     }
 
     public void goTo(String currentPage, String targetPage) {

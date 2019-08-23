@@ -3,8 +3,8 @@ package google.manager;
 import org.openqa.selenium.WebDriver;
 
 public abstract class DriverChain {
-    protected DriverChain next;
-    protected IdBrowsers idBrowser;
+    private DriverChain next;
+    private IdBrowsers idBrowser;
 
     public DriverChain(IdBrowsers id) {
         next = null;
@@ -36,11 +36,8 @@ public abstract class DriverChain {
         }
     }
 
-    public boolean canCreate(IdBrowsers id) {
-        if (idBrowser == id) {
-            return true;
-        }
-        return false;
+    private boolean canCreate(IdBrowsers id) {
+        return idBrowser == id;
     }
 
     protected abstract void startService();

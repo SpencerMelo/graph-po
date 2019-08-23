@@ -16,11 +16,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.openqa.selenium.WebDriver;
 
-import java.util.List;
+import java.util.LinkedList;
 
 public class GoogleSearchTest {
 
@@ -29,6 +27,7 @@ public class GoogleSearchTest {
 
     @BeforeAll
     public static void chainSetup() {
+        //Building a chain of drivers, in case you want to use all :D
         driverChain = new GeckoDriverManager();
         driverChain.setNext(new InternetExplorerDriverManager());
         driverChain.setNext(new ChromeDriverManager());
@@ -36,6 +35,7 @@ public class GoogleSearchTest {
 
     @BeforeEach
     public void setup() throws Exception {
+        //Getting just chrome.
         webDriver = driverChain.getWebDriver(IdBrowsers.CHROME);
     }
 
@@ -46,6 +46,7 @@ public class GoogleSearchTest {
 
     @Test
     public void launchGoogleTest() throws InterruptedException {
+        //Creating the Graph stuff.
         Vertex googlePage = new Vertex(new GooglePage(webDriver));
         Vertex googleResults = new Vertex(new GoogleResults(webDriver));
         Vertex googleImages = new Vertex(new GoogleImages(webDriver));
@@ -59,25 +60,24 @@ public class GoogleSearchTest {
         googleImages.addEdge(new Edge(50, googleResults));
         googleImages.addEdge(new Edge(150, googlePage));
 
-        Graph graph = new Graph();
-        graph.addVertex(googlePage);
-        graph.addVertex(googleResults);
-        graph.addVertex(googleImages);
+        Graph pageObjectGraph = new Graph();
+        pageObjectGraph.addVertex(googlePage);
+        pageObjectGraph.addVertex(googleResults);
+        pageObjectGraph.addVertex(googleImages);
 
+        //Testing it...
         webDriver.get("https://www.google.com");
-        //GooglePage googlePageObject = new GooglePage(webDriver);
-        //googlePageObject.searchBy("Testing").submit().openImages();
 
         String currentPage = "GooglePage";
         String targetPage = "GoogleImages";
 
-        List<Vertex> shortestPath = graph.BFS(currentPage, targetPage); //Total weight should be 75.
-        graph.goTo(currentPage, targetPage);
+        LinkedList<Vertex> shortestPath = pageObjectGraph.BFS(currentPage, targetPage); //Weight will be 75, longest path will be 150+.
+        pageObjectGraph.goTo(currentPage, targetPage);
 
-        System.out.print("Shortest path: (" + targetPage + ")");
+        System.out.print("Shortest path: ");
         for (Vertex v : shortestPath) {
-            System.out.print(" <-- (" + v.getLabel() + ")");
+            System.out.print("(" + v.getLabel() + ") --> ");
         }
-        System.out.println();
+        System.out.println("(" + targetPage + ")");
     }
 }
