@@ -1,19 +1,12 @@
 package google.graph;
 
-public class Edge {
-    private int weight;
-    private Vertex destination;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-    public Edge(int weight, Vertex destination) {
-        this.weight = weight;
-        this.destination = destination;
-    }
-
-    public int getWeight() {
-        return this.weight;
-    }
-
-    public Vertex getDestination() {
-        return destination;
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.ANNOTATION_TYPE, ElementType.METHOD })
+public @interface Edge {
+    int weight() default 1;
 }

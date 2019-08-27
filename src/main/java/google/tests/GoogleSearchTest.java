@@ -1,13 +1,10 @@
 package google.tests;
 
-import google.graph.Edge;
 import google.graph.Graph;
-import google.graph.Vertex;
+import google.graph.GraphVertex;
 import google.manager.DriverChain;
 import google.manager.IdBrowsers;
 import google.manager.chrome.ChromeDriverManager;
-import google.manager.gecko.GeckoDriverManager;
-import google.manager.internetexplorer.InternetExplorerDriverManager;
 import google.page.GoogleImages;
 import google.page.GooglePage;
 import google.page.GoogleResults;
@@ -27,15 +24,11 @@ public class GoogleSearchTest {
 
     @BeforeAll
     public static void chainSetup() {
-        //Building a chain of drivers, in case you want to use all :D
-        driverChain = new GeckoDriverManager();
-        driverChain.setNext(new InternetExplorerDriverManager());
-        driverChain.setNext(new ChromeDriverManager());
+        driverChain = new ChromeDriverManager();
     }
 
     @BeforeEach
     public void setup() throws Exception {
-        //Getting just chrome.
         webDriver = driverChain.getWebDriver(IdBrowsers.CHROME);
     }
 
@@ -45,22 +38,14 @@ public class GoogleSearchTest {
     }
 
     @Test
-    public void launchGoogleTest() throws InterruptedException {
+    public void launchGoogleTest() {
         //Creating the Graph stuff.
-        Vertex googlePage = new Vertex(new GooglePage(webDriver));
-        Vertex googleResults = new Vertex(new GoogleResults(webDriver));
-        Vertex googleImages = new Vertex(new GoogleImages(webDriver));
-
-        googlePage.addEdge(new Edge(25, googleResults));
-        googlePage.addEdge(new Edge(150, googleImages));
-
-        googleResults.addEdge(new Edge(25, googlePage));
-        googleResults.addEdge(new Edge(50, googleImages));
-
-        googleImages.addEdge(new Edge(50, googleResults));
-        googleImages.addEdge(new Edge(150, googlePage));
+        GraphVertex googlePage = new GraphVertex(new GooglePage(webDriver));
+        GraphVertex googleResults = new GraphVertex(new GoogleResults(webDriver));
+        GraphVertex googleImages = new GraphVertex(new GoogleImages(webDriver));
 
         Graph pageObjectGraph = new Graph();
+
         pageObjectGraph.addVertex(googlePage);
         pageObjectGraph.addVertex(googleResults);
         pageObjectGraph.addVertex(googleImages);
@@ -68,16 +53,17 @@ public class GoogleSearchTest {
         //Testing it...
         webDriver.get("https://www.google.com");
 
-        String currentPage = "GooglePage";
-        String targetPage = "GoogleImages";
+        String currentPage = "GoogleImages";
+        String targetPage = "GoogleResults";
 
-        LinkedList<Vertex> shortestPath = pageObjectGraph.BFS(currentPage, targetPage); //Weight will be 75, longest path will be 150+.
+        printShortestPath(pageObjectGraph, currentPage, targetPage);
+
         pageObjectGraph.goTo(currentPage, targetPage);
+    }
 
-        System.out.print("Shortest path: ");
-        for (Vertex v : shortestPath) {
+    private void printShortestPath(Graph graph, String start, String end) {
+        for (GraphVertex v : graph.bfs(start, end))
             System.out.print("(" + v.getLabel() + ") --> ");
-        }
-        System.out.println("(" + targetPage + ")");
+        System.out.println("(" + end + ")");
     }
 }

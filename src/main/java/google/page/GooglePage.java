@@ -1,5 +1,6 @@
 package google.page;
 
+import google.graph.Edge;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -25,7 +26,10 @@ public class GooglePage extends Base{
         return this;
     }
 
+    @Edge(weight = 25)
     public GoogleResults submit() {
+        //This searchBy is here just for testing purposes!
+        searchBy("Testing");
         try {
             searchButton.click();
         } catch (ElementClickInterceptedException ex) {
@@ -35,8 +39,7 @@ public class GooglePage extends Base{
     }
 
     @Override
-    public GoogleResults navigateTo(Base base) {
-        //hardcoded stuff for testing.
-        return searchBy("Testing").submit();
+    public WebDriver getWebDriver() {
+        return this.webDriver;
     }
 }

@@ -1,5 +1,6 @@
 package google.page;
 
+import google.graph.Edge;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,15 +18,14 @@ public class GoogleImages extends Base {
         PageFactory.initElements(webDriver, this);
     }
 
+    @Edge(weight = 50)
     public GoogleResults openResults() {
         optionsBar.findElement(By.cssSelector("div[role=tab] a")).click();
         return new GoogleResults(webDriver);
     }
 
     @Override
-    public Base navigateTo(Base base) {
-        if (base instanceof GoogleResults)
-            return openResults();
-        throw new IllegalArgumentException("Invalid blablabla");
+    public WebDriver getWebDriver() {
+        return this.webDriver;
     }
 }
