@@ -26,7 +26,7 @@ public class GooglePage extends Base{
         return this;
     }
 
-    @Edge(weight = 25)
+    @Edge(weight = 5)
     public GoogleResults submit() {
         //This searchBy is here just for testing purposes!
         searchBy("Testing");

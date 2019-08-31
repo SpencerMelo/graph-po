@@ -1,5 +1,8 @@
 package google.graph;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import google.page.Base;
 import org.openqa.selenium.WebDriver;
 
@@ -9,6 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@JsonPropertyOrder({ "Vertex", "Edges" })
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class GraphVertex {
     private Base pageObject;
     private Set<GraphEdge> graphEdges;
@@ -18,15 +23,21 @@ public class GraphVertex {
         graphEdges = new HashSet<>();
     }
 
+    public void setPageObject(Base pageObject) {
+        this.pageObject = pageObject;
+    }
+
+    @JsonProperty("Vertex")
     public String getLabel() {
         return this.pageObject.getClass().getSimpleName();
     }
 
-    List<GraphEdge> getGraphEdges() {
+    @JsonProperty("Edges")
+    public List<GraphEdge> getGraphEdges() {
         return new ArrayList<>(graphEdges);
     }
 
-    public int getNeighborDistance(GraphVertex v) {
+    public long getNeighborDistance(GraphVertex v) {
         for (GraphEdge graphEdge : getGraphEdges()) {
             if (graphEdge.getDestination().equals(v)) {
                 return graphEdge.getWeight();
@@ -48,10 +59,19 @@ public class GraphVertex {
         return -1;
     }
 
-    GraphVertex getEdgeTo(String targetPage) {
+    GraphVertex getVertexTo(String targetPage) {
         for (GraphEdge graphEdge : getGraphEdges()) {
             if (graphEdge.getDestination().getLabel().equals(targetPage)) {
                 return graphEdge.getDestination();
+            }
+        }
+        throw new IllegalArgumentException("No neighbor found.");
+    }
+
+    GraphEdge getEdgeTo(String targetPage) {
+        for (GraphEdge graphEdge : getGraphEdges()) {
+            if (graphEdge.getDestination().getLabel().equals(targetPage)) {
+                return graphEdge;
             }
         }
         throw new IllegalArgumentException("No neighbor found.");

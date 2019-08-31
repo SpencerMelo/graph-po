@@ -15,8 +15,6 @@ import org.junit.jupiter.api.Test;
 
 import org.openqa.selenium.WebDriver;
 
-import java.util.LinkedList;
-
 public class GoogleSearchTest {
 
     private static DriverChain driverChain;
@@ -53,8 +51,8 @@ public class GoogleSearchTest {
         //Testing it...
         webDriver.get("https://www.google.com");
 
-        String currentPage = "GoogleImages";
-        String targetPage = "GoogleResults";
+        String currentPage = "GooglePage";
+        String targetPage = "GoogleImages";
 
         printShortestPath(pageObjectGraph, currentPage, targetPage);
 
