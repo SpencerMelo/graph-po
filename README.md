@@ -8,3 +8,44 @@ TODO: <br>
 DONE: <br>
   Notate navigation methods and use it to track, in some reflection way. <br>
     Set the weight based on loading time. [PRIORITY 1] <br>
+
+
+Graph json file generated example: <br>
+
+{
+  "Graph": [
+    {
+      "Vertex": "GooglePage",
+      "Edges": [
+        {
+          "Weight": 1530,
+          "Destination": {
+            "Vertex": "GoogleResults"
+          }
+        }
+      ]
+    },
+    {
+      "Vertex": "GoogleImages",
+      "Edges": [
+        {
+          "Weight": 1030,
+          "Destination": {
+            "Vertex": "GoogleResults"
+          }
+        }
+      ]
+    },
+    {
+      "Vertex": "GoogleResults",
+      "Edges": [
+        {
+          "Weight": 1327,
+          "Destination": {
+            "Vertex": "GoogleImages"
+          }
+        }
+      ]
+    }
+  ]
+}
