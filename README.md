@@ -1,4 +1,4 @@
-# graph-po
+# graph-po (POC)
 
 TODO: <br>
   Remove BFS and use a library for the graph. [NOT REQUIRED RIGHT NOW]. <br>
