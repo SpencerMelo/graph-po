@@ -1,4 +1,4 @@
-# graph-po (POC)
+# graph-po (in-progress again)
 
 TODO: <br>
   Remove BFS and use a library for the graph. [NOT REQUIRED RIGHT NOW]. <br>
@@ -7,7 +7,7 @@ TODO: <br>
 
 DONE: <br>
   Notate navigation methods and use it to track, in some reflection way. <br>
-    Set the weight based on loading time. [PRIORITY 1] <br>
+  Set the weight based on loading time. [PRIORITY 1] <br>
 
 
 Graph json file generated example: <br>
