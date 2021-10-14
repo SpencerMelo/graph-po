@@ -4,8 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 public class Graph {
     private Set<GraphVertex> vertices;
@@ -45,7 +51,7 @@ public class Graph {
         }
         dist.put(source, 0L);
 
-        //While we the queue is not empty, continue the search.
+        //While the queue is not empty, continue the search.
         while (!queue.isEmpty()) {
             Map<String, Long> altDist = new HashMap<>(dist);
             altDist.keySet().retainAll(queue.keySet());
@@ -101,13 +107,13 @@ public class Graph {
 
     private void updateEdgesWeight(GraphVertex source, GraphVertex target, long weight){
         System.out.println("(" + source.getLabel() + ") --" + weight + "ms--> (" + target.getLabel() + ")");
-        getVertex(source).getEdgeTo(target.getLabel()).setWeight(weight);
+        getVertex(source).getEdgeTo(target).setWeight(weight);
     }
 
     private void saveChanges() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
         System.out.println(json);
-        //update the source and target weight on the json file.
+        //TODO update the source and target weight on the json file.
     }
 }

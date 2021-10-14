@@ -1,10 +1,10 @@
-package google.tests;
+package google.test;
 
 import google.graph.Graph;
 import google.graph.GraphVertex;
 import google.manager.DriverChain;
 import google.manager.IdBrowsers;
-import google.manager.chrome.ChromeDriverManager;
+import google.manager.gecko.GeckoDriverManager;
 import google.page.GoogleImages;
 import google.page.GooglePage;
 import google.page.GoogleResults;
@@ -22,22 +22,16 @@ public class GoogleSearchTest {
 
     @BeforeAll
     public static void chainSetup() {
-        driverChain = new ChromeDriverManager();
+        driverChain = new GeckoDriverManager();
     }
 
     @BeforeEach
     public void setup() throws Exception {
-        webDriver = driverChain.getWebDriver(IdBrowsers.CHROME);
-    }
-
-    @AfterEach
-    public void tearDown() {
-        driverChain.quitDriver(webDriver);
+        webDriver = driverChain.getWebDriver(IdBrowsers.FIREFOX);
     }
 
     @Test
     public void launchGoogleTest() {
-        //Creating the Graph stuff.
         GraphVertex googlePage = new GraphVertex(new GooglePage(webDriver));
         GraphVertex googleResults = new GraphVertex(new GoogleResults(webDriver));
         GraphVertex googleImages = new GraphVertex(new GoogleImages(webDriver));
@@ -54,7 +48,10 @@ public class GoogleSearchTest {
         String currentPage = "GooglePage";
         String targetPage = "GoogleImages";
 
-        printShortestPath(pageObjectGraph, currentPage, targetPage);
+        pageObjectGraph.goTo(currentPage, targetPage);
+
+        currentPage = "GoogleImages";
+        targetPage = "GoogleResults";
 
         pageObjectGraph.goTo(currentPage, targetPage);
     }
@@ -63,5 +60,10 @@ public class GoogleSearchTest {
         for (GraphVertex v : graph.bfs(start, end))
             System.out.print("(" + v.getLabel() + ") --> ");
         System.out.println("(" + end + ")");
+    }
+
+    @AfterEach
+    public void tearDown() {
+        driverChain.quitDriver(webDriver);
     }
 }

@@ -15,16 +15,12 @@ import java.util.Set;
 @JsonPropertyOrder({ "Vertex", "Edges" })
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class GraphVertex {
-    private Base pageObject;
-    private Set<GraphEdge> graphEdges;
+    private final Base pageObject;
+    private final Set<GraphEdge> graphEdges;
 
     public GraphVertex(Base pageObject) {
         this.pageObject = pageObject;
         graphEdges = new HashSet<>();
-    }
-
-    public void setPageObject(Base pageObject) {
-        this.pageObject = pageObject;
     }
 
     @JsonProperty("Vertex")
@@ -68,9 +64,9 @@ public class GraphVertex {
         throw new IllegalArgumentException("No neighbor found.");
     }
 
-    GraphEdge getEdgeTo(String targetPage) {
+    GraphEdge getEdgeTo(GraphVertex targetPage) {
         for (GraphEdge graphEdge : getGraphEdges()) {
-            if (graphEdge.getDestination().getLabel().equals(targetPage)) {
+            if (graphEdge.getDestination().getLabel().equals(targetPage.getLabel())) {
                 return graphEdge;
             }
         }
